@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Film & Serie TV</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial;
+  background:linear-gradient(135deg,#1e1e2f,#2b1055);
+  color:white;
+  text-align:center;
+  min-height:100vh;
+}
+
+header{
+  background:linear-gradient(90deg,#ff512f,#dd2476);
+  padding:20px;
+}
+
+section{
+  display:none;
+  padding:40px;
+}
+
+section.active{
+  display:block;
+}
+
+form{
+  background:rgba(255,255,255,0.1);
+  padding:25px;
+  border-radius:15px;
+  display:inline-block;
+}
+
+input, textarea{
+  width:260px;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:none;
+}
+
+textarea{height:120px}
+
+button{
+  padding:12px 25px;
+  background:#00c6ff;
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.card{
+  background:rgba(255,255,255,0.12);
+  margin:20px auto;
+  padding:20px;
+  width:80%;
+  border-radius:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Film & Serie TV Consigliati</h1>
+</header>
+
+<!-- PAGINA 1 LOGIN -->
+<section id="login" class="active">
+<h2>Accesso</h2><br>
+<form onsubmit="vaiPreferenze(); return false;">
+  <input type="text" id="nome" placeholder="Nome" required><br>
+  <input type="text" id="cognome" placeholder="Cognome" required><br>
+  <button>Accedi</button>
+</form>
+</section>
+
+<!-- PAGINA 2 PREFERENZE -->
+<section id="preferenze">
+<h2 id="saluto"></h2>
+<h3>Seleziona le preferenze</h3><br>
+
+<form onsubmit="vaiDescrizione(); return false;">
+  <label><input type="checkbox"> Film</label><br>
+  <label><input type="checkbox"> Serie TV</label><br><br>
+  <label><input type="checkbox"> Fantasy</label><br>
+  <label><input type="checkbox"> Horror</label><br>
+  <label><input type="checkbox"> Avventura</label><br><br>
+  <button>Continua</button>
+</form>
+</section>
+
+<!-- PAGINA 3 DESCRIZIONE -->
+<section id="descrizione">
+<h2>Descrivi il film o la serie</h2><br>
+<form onsubmit="cerca(); return false;">
+  <textarea id="testo" placeholder="Esempio: quattro ragazzi e un gioco da tavolo..."></textarea><br>
+  <button>Cerca</button>
+</form>
+</section>
+
+<!-- PAGINA 4 RISULTATI -->
+<section id="risultati">
+<h2>Risultati trovati</h2>
+<div class="card">Stranger Things</div>
+<div class="card">Maze Runner</div>
+<div class="card">Outer Banks</div>
+<div class="card">Marvel Cinematic Universe</div>
+<div class="card">Harry Potter</div>
+<div class="card">L’estate nei tuoi occhi</div>
+</section>
+
+<!-- PAGINA ERRORE -->
+<section id="errore">
+<h2>😕 Mi dispiace</h2>
+<p>Non c'è nulla che corrisponde alla descrizione fornita.</p>
+</section>
+
+<script>
+let nomeUtente = "";
+let cognomeUtente = "";
+
+function mostra(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function vaiPreferenze(){
+  nomeUtente = document.getElementById("nome").value;
+  cognomeUtente = document.getElementById("cognome").value;
+
+  document.getElementById("saluto").innerText =
+    "Ciao " + nomeUtente + " " + cognomeUtente + " 👋";
+
+  mostra("preferenze");
+}
+
+function vaiDescrizione(){
+  mostra("descrizione");
+}
+
+function cerca(){
+  let testo = document.getElementById("testo").value.toLowerCase();
+
+  let paroleChiave = [
+    "ragazzi","gioco","mistero","labirinto",
+    "supereroi","magia","estate","tesoro"
+  ];
+
+  let trovato = paroleChiave.some(p => testo.includes(p));
+
+  if(trovato){
+    mostra("risultati");
+  } else {
+    mostra("errore");
+  }
+}
+</script>
+
+</body>
+</html>
